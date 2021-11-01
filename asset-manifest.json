@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/react-datepicker/static/js/main.eb3a04d1.chunk.js",
+    "main.js.map": "/react-datepicker/static/js/main.eb3a04d1.chunk.js.map",
+    "runtime-main.js": "/react-datepicker/static/js/runtime-main.1473d828.js",
+    "runtime-main.js.map": "/react-datepicker/static/js/runtime-main.1473d828.js.map",
+    "static/js/2.8f27e328.chunk.js": "/react-datepicker/static/js/2.8f27e328.chunk.js",
+    "static/js/2.8f27e328.chunk.js.map": "/react-datepicker/static/js/2.8f27e328.chunk.js.map",
+    "index.html": "/react-datepicker/index.html",
+    "static/js/2.8f27e328.chunk.js.LICENSE.txt": "/react-datepicker/static/js/2.8f27e328.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1473d828.js",
+    "static/js/2.8f27e328.chunk.js",
+    "static/js/main.eb3a04d1.chunk.js"
+  ]
+}
