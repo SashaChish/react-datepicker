@@ -8,6 +8,7 @@ import Navigation from './components/Navigation/Navigation'
 import DateControl from './components/DateControl/DateControl'
 
 import { GlobalStyle, Wrap, CalendarWrap } from './App.style'
+import Footer from './components/Footer/Footer'
 
 const initialCalendarOptions = {
   year: CURRENT_DATE.getFullYear(),
@@ -76,7 +77,6 @@ function App() {
 
   const applySelection = () => {
     if (selected) {
-      console.log('selected')
       setSelectedDateShow(createDateFormat(selectedDate))
       setSelectedDate(initialDate)
       setCalendarType('')
@@ -103,22 +103,12 @@ function App() {
         />
         <Content getSelectedDate={getSelectedDate} options={calendarOptions} />
       </CalendarWrap>
-      <div className="footer">
-        <label className="label" onClick={goToLastWeek}>
-          last week
-        </label>
-        <label className="label" onClick={goToLastMonth}>
-          last month
-        </label>
-        <label className="label" onClick={goToLastQuarter}>
-          last quarter
-        </label>
-      </div>
-      <div className="btn-container">
-        <button className="btn" onClick={applySelection}>
-          apply
-        </button>
-      </div>
+      <Footer
+        goToLastWeek={goToLastWeek}
+        goToLastMonth={goToLastMonth}
+        goToLastQuarter={goToLastQuarter}
+        applySelection={applySelection}
+      />
     </Wrap>
   )
 }
