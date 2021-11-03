@@ -7,7 +7,7 @@ import { Container, Cell } from './styled'
 
 const MonthDates = ({ options, getSelected }) => {
   const calendar = createCalendarMonth(options)
-  console.log('calendar', calendar, options)
+
   return (
     <Container>
       {calendar.map(item =>
