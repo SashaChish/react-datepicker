@@ -1,19 +1,21 @@
 import React from 'react'
-import { months } from '../../../../utils/data/data'
 import PropTypes from 'prop-types'
-import { ArrowLeft, ArrowRight, Head, Title, Wrap } from './styled'
 
-const Navigation = ({ prev, next, options }) => {
+import { months } from '../../utils/data/data'
+
+import { ArrowLeft, ArrowRight, Container, Title, Wrap } from './styled'
+
+const Navigation = ({ prev, next, options, selected }) => {
   const currentMonth = months.find(month => month.id === options.month)
 
   return (
-    <Head>
+    <Container>
       <Wrap>
-        <ArrowLeft onClick={prev} />
+        <ArrowLeft selected={selected} onClick={prev} />
         <Title>{`${currentMonth.name} ${options.year}`}</Title>
-        <ArrowRight onClick={next} />
+        <ArrowRight selected={selected} onClick={next} />
       </Wrap>
-    </Head>
+    </Container>
   )
 }
 
@@ -21,6 +23,7 @@ Navigation.propTypes = {
   prev: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   options: PropTypes.object.isRequired,
+	selected: PropTypes.bool.isRequired
 }
 
 export default Navigation

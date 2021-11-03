@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Td, Thead } from './styled'
+
+import { Container, Cell } from './styled'
 
 const DaysOfWeek = ({ days }) => {
   return (
-    <Thead>
-      <tr>
-        {days.map(day => (
-          <Td key={day.id}>{day.name.slice(0, 3)}</Td>
-        ))}
-      </tr>
-    </Thead>
+    <Container>
+      {days.map(day => (
+        <Cell key={day.id}>{day.name.slice(0, 3)}</Cell>
+      ))}
+    </Container>
   )
 }
 

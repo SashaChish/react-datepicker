@@ -1,3 +1,5 @@
+export const CURRENT_DATE = new Date()
+
 export const days = [
   {
     id: 1,

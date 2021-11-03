@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Head = styled.div`
+export const Container = styled.div`
   width: 100%;
   height: 80px;
   display: flex;
@@ -15,11 +15,16 @@ export const Wrap = styled.div`
 `
 
 export const Arrow = styled.i`
-  cursor: pointer;
+  cursor: ${({ selected }) => (selected ? 'not-allowed' : 'pointer')};
   border: solid #009999;
-  border-width: 0 4px 4px 0;
+  border-width: 0 5px 5px 0;
   display: inline-block;
-  padding: 6px;
+  padding: 8px;
+  transition: all 0.1s ease;
+
+  &:hover {
+    border-color: ${({ selected }) => (selected ? '#009999' : '#2d59a1')};
+  }
 `
 
 export const ArrowLeft = styled(Arrow)`

@@ -1,60 +1,124 @@
 import { useState } from 'react'
-import Content from './components/Calendar/Body/Content'
-import Navigation from './components/Calendar/Body/Navigation'
-import DateControl from './components/Calendar/Head/DateControl'
-import { GlobalStyle, Wrap, Calendar } from './App.style'
 
+import { addZeroToStart, createDateFormat } from './utils/helpers/helpers'
+import { CURRENT_DATE } from './utils/data/data'
+
+import Content from './components/Content/Content'
+import Navigation from './components/Navigation/Navigation'
+import DateControl from './components/DateControl/DateControl'
+
+import { GlobalStyle, Wrap, CalendarWrap } from './App.style'
+
+const initialCalendarOptions = {
+  year: CURRENT_DATE.getFullYear(),
+  month: CURRENT_DATE.getMonth(),
+}
+
+const initialDate = {
+  firstSelected: '',
+  secondSelected: '',
+}
+
+// app має тільки рендерити
 function App() {
-  console.log('render')
-  const currentDate = new Date()
-  const addZeroToStart = n => (n.toString().length === 1 ? '0' + n : n.toString())
-
-  const [calendarOptions, setCalendarOptions] = useState({
-    year: currentDate.getFullYear(),
-    month: currentDate.getMonth(),
-  })
-
+  const [calendarOptions, setCalendarOptions] = useState(initialCalendarOptions)
+  const [selected, setSelected] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(initialDate)
+  const [selectedDateShow, setSelectedDateShow] = useState(initialDate)
   const [calendarType, setCalendarType] = useState('')
 
-  const [dateValue, setDateValue] = useState({
-    date: addZeroToStart(currentDate.getDate()),
-    month: addZeroToStart(currentDate.getMonth() + 1),
-    year: currentDate.getFullYear().toString(),
-  })
-
-  const prevMonth = () =>
-    setCalendarOptions(option => ({
-      year: option.month ? option.year : option.year - 1,
-      month: option.month ? option.month - 1 : 11,
-    }))
+  console.log(selectedDate)
+  const prevMonth = () => {
+    !selected &&
+      setCalendarOptions(option => ({
+        year: option.month ? option.year : option.year - 1,
+        month: option.month ? option.month - 1 : 11,
+      }))
+  }
 
   const nextMonth = () => {
-    setCalendarOptions(option => {
-      return {
-        year: option.month < 11 ? option.year : option.year + 1,
-        month: option.month < 11 ? option.month + 1 : 0,
-      }
-    })
+    !selected &&
+      setCalendarOptions(option => {
+        return {
+          year: option.month < 11 ? option.year : option.year + 1,
+          month: option.month < 11 ? option.month + 1 : 0,
+        }
+      })
   }
 
-  const getDateValue = ({ date, month, year }) => {
-    if (!calendarType) setCalendarType('single')
+  const getSelectedDate = ({ id, date, month, year }) => {
+    setSelected(true)
+    if (!calendarType) {
+      setSelectedDate({
+        ...selectedDate,
+        firstSelected: {
+          id,
+          date: addZeroToStart(date),
+          month: addZeroToStart(month),
+          year,
+        },
+      })
+      setCalendarType('single')
+    }
 
-    setDateValue({
-      date: addZeroToStart(date),
-      month: addZeroToStart(month),
-      year,
-    })
+    if (calendarType === 'single') {
+      setSelectedDate({
+        ...selectedDate,
+        secondSelected: {
+          id,
+          date: addZeroToStart(date),
+          month: addZeroToStart(month),
+          year,
+        },
+      })
+    }
   }
+
+  const applySelection = () => {
+    if (selected) {
+      console.log('selected')
+      setSelectedDateShow(createDateFormat(selectedDate))
+      setSelectedDate(initialDate)
+      setCalendarType('')
+      setSelected(false)
+    }
+  }
+
+  const goToLastWeek = () => {}
+
+  const goToLastMonth = () => {}
+
+  const goToLastQuarter = () => {}
 
   return (
     <Wrap>
       <GlobalStyle />
-      <DateControl dateValue={dateValue} />
-      <Calendar>
-        <Navigation prev={prevMonth} next={nextMonth} options={calendarOptions} />
-        <Content getDateValue={getDateValue} options={calendarOptions} />
-      </Calendar>
+      <DateControl selectedDateShow={selectedDateShow} />
+      <CalendarWrap>
+        <Navigation
+          selected={selected}
+          prev={prevMonth}
+          next={nextMonth}
+          options={calendarOptions}
+        />
+        <Content getSelectedDate={getSelectedDate} options={calendarOptions} />
+      </CalendarWrap>
+      <div className="footer">
+        <label className="label" onClick={goToLastWeek}>
+          last week
+        </label>
+        <label className="label" onClick={goToLastMonth}>
+          last month
+        </label>
+        <label className="label" onClick={goToLastQuarter}>
+          last quarter
+        </label>
+      </div>
+      <div className="btn-container">
+        <button className="btn" onClick={applySelection}>
+          apply
+        </button>
+      </div>
     </Wrap>
   )
 }
