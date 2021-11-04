@@ -1,50 +1,48 @@
 import React, { useState } from 'react'
 
-import { addZeroToStart, createDateFormat } from '../../utils/helpers/helpers'
+import { createDateFormat } from '../../utils/helpers/helpers'
 
 import DateControl from './DateControl/DateControl'
 import Content from './Content/Content'
 import Footer from './Footer/Footer'
 
-const initialSelected = {
+const initialSelectedDates = {
   firstSelected: '',
   secondSelected: '',
 }
 
+const initialSelectedDatesShow = {
+  firstSelected: '00-00-00',
+  secondSelected: '00-00-00',
+}
+
 const Calendar = () => {
   const [selected, setSelected] = useState(false)
-  const [selectedDates, setSelectedDates] = useState(initialSelected)
-  const [selectedDatesShow, setSelectedDatesShow] = useState(initialSelected)
+  const [selectedDates, setSelectedDates] = useState(initialSelectedDates)
+  const [selectedDatesShow, setSelectedDatesShow] = useState(initialSelectedDatesShow)
   const [calendarType, setCalendarType] = useState('')
 
-  const getselectedDates = ({ id, date, month, year }) => {
-    const createDate = {
-      id,
-      date: addZeroToStart(date),
-      month: addZeroToStart(month),
-      year,
-    }
-
-		setSelected(true)
+  const getselectedDates = date => {
+    setSelected(true)
     setSelectedDates(() => {
       if (!calendarType) {
         setCalendarType('single')
         return {
           ...selectedDates,
-          firstSelected: createDate,
+          firstSelected: date,
         }
       }
 
       if (calendarType === 'single') {
         setCalendarType('range')
-        return selectedDates.firstSelected.id > id
+        return selectedDates.firstSelected.id > date.id
           ? {
-              firstSelected: createDate,
+              firstSelected: date,
               secondSelected: selectedDates.firstSelected,
             }
           : {
               ...selectedDates,
-              secondSelected: createDate,
+              secondSelected: date,
             }
       }
 
@@ -55,7 +53,7 @@ const Calendar = () => {
   const applySelection = () => {
     if (selected) {
       setSelectedDatesShow(createDateFormat(selectedDates))
-      setSelectedDates(initialSelected)
+      setSelectedDates(initialSelectedDates)
       setCalendarType('')
       setSelected(false)
     }

@@ -6,7 +6,7 @@ export const Navigation = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-bottom: 1px solid #2a9cad;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `
 
 export const Label = styled.div`

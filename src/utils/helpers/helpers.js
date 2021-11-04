@@ -1,14 +1,12 @@
-export function addZeroToStart(n) {
-  return n.toString().length === 1 ? '0' + n : n.toString()
-}
+export const addZeroToStart = n => (n.length === 1 ? '0' + n : n)
 
 export const createDateFormat = dateObj => {
   const dateValueForShow = {}
   for (let key of Object.keys(dateObj)) {
-    if (typeof dateObj[key] === 'string') dateValueForShow[key] = ''
+    if (typeof dateObj[key] === 'string') dateValueForShow[key] = '00-00-00'
     else {
       const { date, month, year } = dateObj[key]
-      dateValueForShow[key] = `${month}-${date}-${year}`
+      dateValueForShow[key] = `${addZeroToStart((+month + 1).toString())}-${date}-${year}`
     }
   }
   return dateValueForShow

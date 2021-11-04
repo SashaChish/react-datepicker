@@ -1,22 +1,30 @@
+import { addZeroToStart } from '../helpers/helpers'
+
 const createPrevDateObj = (year, month, date, prevMonthDateStart, id) => {
   const prevDate = new Date(year, month - 1, date)
+  const dateStringFormat = addZeroToStart(
+    new Date(year, month - 1, prevMonthDateStart).getDate().toString()
+  )
+  const monthStringFormat = addZeroToStart(prevDate.getMonth().toString())
 
   return {
     id,
-    date: new Date(year, month - 1, prevMonthDateStart).getDate().toString(),
-    month: (prevDate.getMonth() + 1).toString(),
-    year: prevDate.getFullYear().toString(),
+    date: dateStringFormat,
+    month: monthStringFormat,
+    year: prevDate.getFullYear(),
   }
 }
 
 const createCurrentDateObj = (year, month, date, id) => {
-  let currentDate = new Date(year, month, date)
+  const currentDate = new Date(year, month, date)
+  const dateStringFormat = addZeroToStart(currentDate.getDate().toString())
+  const monthStringFormat = addZeroToStart(currentDate.getMonth().toString())
 
   return {
     id,
-    date: currentDate.getDate().toString(),
-    month: (currentDate.getMonth() + 1).toString(),
-    year: currentDate.getFullYear().toString(),
+    date: dateStringFormat,
+    month: monthStringFormat,
+    year: currentDate.getFullYear(),
   }
 }
 

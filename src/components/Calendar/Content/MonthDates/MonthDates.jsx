@@ -12,7 +12,7 @@ const MonthDates = ({ options, getSelected, selectedDates }) => {
   return (
     <Container>
       {calendar.map(item =>
-        options.month === +item.month - 1 ? (
+        options.month === +item.month ? (
           <Cell
             left={item.id === firstSelected.id}
             right={item.id === secondSelected.id}
@@ -23,11 +23,11 @@ const MonthDates = ({ options, getSelected, selectedDates }) => {
               getSelected(item)
             }}
           >
-            {item.date}
+            {+item.date}
           </Cell>
         ) : (
           <Cell active={false} key={item.id}>
-            {item.date}
+            {+item.date}
           </Cell>
         )
       )}
