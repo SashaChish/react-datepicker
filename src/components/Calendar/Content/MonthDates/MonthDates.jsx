@@ -1,11 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes, { object, string } from 'prop-types'
 
-import createCalendarMonth from '../../../utils/dateApi/date'
+import createCalendarMonth from '../../../../utils/dateApi/date'
 
 import { Container, Cell } from './styled'
 
-const MonthDates = ({ options, getSelected }) => {
+const MonthDates = ({ options, getSelected, selectedDates }) => {
+  const { firstSelected, secondSelected } = selectedDates
   const calendar = createCalendarMonth(options)
 
   return (
@@ -13,9 +14,12 @@ const MonthDates = ({ options, getSelected }) => {
       {calendar.map(item =>
         options.month === +item.month - 1 ? (
           <Cell
+            left={item.id === firstSelected.id}
+            right={item.id === secondSelected.id}
+            inner={item.id > firstSelected.id && item.id < secondSelected.id}
             active
             key={item.id}
-            onClick={e => {
+            onClick={() => {
               getSelected(item)
             }}
           >
@@ -32,6 +36,10 @@ const MonthDates = ({ options, getSelected }) => {
 }
 
 MonthDates.propTypes = {
+  selectedDates: PropTypes.shape({
+    firstSelected: PropTypes.oneOfType([object, string]).isRequired,
+    secondSelected: PropTypes.oneOfType([object, string]).isRequired,
+  }),
   options: PropTypes.shape({
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { months } from '../../../utils/data/data'
+import { months } from '../../../../utils/data/data'
 
 import { ArrowLeft, ArrowRight, Container, Title } from './styled'
 

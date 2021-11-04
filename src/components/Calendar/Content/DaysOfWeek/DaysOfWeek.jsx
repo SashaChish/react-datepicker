@@ -1,9 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
+import { days } from '../../../../utils/data/data'
 
 import { Container, Cell } from './styled'
 
-const DaysOfWeek = ({ days }) => {
+const DaysOfWeek = () => {
   return (
     <Container>
       {days.map(day => (
@@ -11,10 +12,6 @@ const DaysOfWeek = ({ days }) => {
       ))}
     </Container>
   )
-}
-
-DaysOfWeek.propTypes = {
-  days: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default DaysOfWeek

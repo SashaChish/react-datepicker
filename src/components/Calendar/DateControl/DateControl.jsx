@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 import { Container, Wrap, Input, Separator, CloseWrap, Close } from './styled'
 
-const DateControl = ({ selectedDateShow }) => {
+const DateControl = ({ selectedDatesShow }) => {
   return (
     <Container>
       <Wrap>
         <label>
           <Input
             type="text"
-            value={selectedDateShow.firstSelected || '00-00-00'}
+            value={selectedDatesShow.firstSelected || '00-00-00'}
             disabled
           />
         </label>
@@ -18,7 +18,7 @@ const DateControl = ({ selectedDateShow }) => {
         <label>
           <Input
             type="text"
-            value={selectedDateShow.secondSelected || '00-00-00'}
+            value={selectedDatesShow.secondSelected || '00-00-00'}
             disabled
           />
         </label>
@@ -31,7 +31,7 @@ const DateControl = ({ selectedDateShow }) => {
 }
 
 DateControl.propTypes = {
-  selectedDateShow: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  selectedDatesShow: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 }
 
 export default DateControl

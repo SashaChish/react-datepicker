@@ -1,8 +1,8 @@
 import React from 'react'
-import { useState } from 'react/cjs/react.development'
-import PropTypes from 'prop-types'
+import PropTypes, { object, string } from 'prop-types'
+import { useState } from 'react'
 
-import { CURRENT_DATE, days } from '../../utils/data/data'
+import { CURRENT_DATE } from '../../../utils/data/data'
 
 import Navigation from './Navigation/Navigation'
 import DaysOfWeek from './DaysOfWeek/DaysOfWeek'
@@ -15,7 +15,7 @@ const initialCalendarOptions = {
   month: CURRENT_DATE.getMonth(),
 }
 
-const Content = ({ getSelectedDate, selected }) => {
+const Content = ({ getselectedDates, selected, selectedDates }) => {
   const [calendarOptions, setCalendarOptions] = useState(initialCalendarOptions)
 
   const prevMonth = () => {
@@ -28,12 +28,10 @@ const Content = ({ getSelectedDate, selected }) => {
 
   const nextMonth = () => {
     !selected &&
-      setCalendarOptions(option => {
-        return {
-          year: option.month < 11 ? option.year : option.year + 1,
-          month: option.month < 11 ? option.month + 1 : 0,
-        }
-      })
+      setCalendarOptions(option => ({
+        year: option.month < 11 ? option.year : option.year + 1,
+        month: option.month < 11 ? option.month + 1 : 0,
+      }))
   }
 
   return (
@@ -45,16 +43,24 @@ const Content = ({ getSelectedDate, selected }) => {
           options={calendarOptions}
           selected={selected}
         />
-        <DaysOfWeek days={days} />
-        <MonthDates getSelected={getSelectedDate} options={calendarOptions} />
+        <DaysOfWeek />
+        <MonthDates
+          getSelected={getselectedDates}
+          selectedDates={selectedDates}
+          options={calendarOptions}
+        />
       </Wrap>
     </Container>
   )
 }
 
 Content.propTypes = {
+  selectedDates: PropTypes.shape({
+    firstSelected: PropTypes.oneOfType([object, string]).isRequired,
+    secondSelected: PropTypes.oneOfType([object, string]).isRequired,
+  }),
   selected: PropTypes.bool.isRequired,
-  getSelectedDate: PropTypes.func.isRequired,
+  getselectedDates: PropTypes.func.isRequired,
 }
 
 export default Content
