@@ -9,7 +9,7 @@ export const Container = styled.div`
 `
 
 export const Arrow = styled.i`
-  cursor: ${({ selected }) => (selected ? 'not-allowed' : 'pointer')};
+  cursor: pointer;
   border: solid #009999;
   border-width: 0 5px 5px 0;
   display: inline-block;
@@ -17,7 +17,7 @@ export const Arrow = styled.i`
   transition: all 0.1s ease;
 
   &:hover {
-    border-color: ${({ selected }) => (selected ? '#009999' : '#2d59a1')};
+    border-color: #2d59a1;
   }
 `
 

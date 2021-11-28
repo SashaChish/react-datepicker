@@ -1,4 +1,4 @@
-import Calendar from './components/Calendar/Calendar'
+import { Calendar } from './components'
 
 import { GlobalStyle, Wrap } from './App.style'
 
