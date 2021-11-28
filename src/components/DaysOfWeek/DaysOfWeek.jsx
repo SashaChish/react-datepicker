@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { days } from '../../../../utils/data/data'
+import { days } from '../../utils/data'
 
-import { Container, Cell } from './styled'
+import { Container, Cell } from './DaysOfWeek.style'
 
-const DaysOfWeek = () => {
+export const DaysOfWeek = () => {
   return (
     <Container>
       {days.map(day => (
@@ -13,5 +13,3 @@ const DaysOfWeek = () => {
     </Container>
   )
 }
-
-export default DaysOfWeek

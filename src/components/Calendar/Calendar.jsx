@@ -1,86 +1,70 @@
 import React, { useState } from 'react'
 
-import { createDateFormat } from '../../utils/helpers/helpers'
+import { DateControl } from '../DateControl'
+import { Footer } from '../Footer'
+import { Content } from '../Content'
 
-import DateControl from './DateControl/DateControl'
-import Content from './Content/Content'
-import Footer from './Footer/Footer'
-
-const initialSelectedDates = {
-  firstSelected: '',
-  secondSelected: '',
+const initSelectDate = {
+  first: '',
+  second: '',
+  isFull: false,
 }
 
-const initialSelectedDatesShow = {
-  firstSelected: '00-00-00',
-  secondSelected: '00-00-00',
-}
+export const Calendar = () => {
+  const [isFirstSelect, setIsFirstSelect] = useState(true)
+  const [selectDate, setSelectDate] = useState(initSelectDate)
+  const [selectDates, setSelectDates] = useState([])
 
-const Calendar = () => {
-  const [selected, setSelected] = useState(false)
-  const [selectedDates, setSelectedDates] = useState(initialSelectedDates)
-  const [selectedDatesShow, setSelectedDatesShow] = useState(initialSelectedDatesShow)
-  const [calendarType, setCalendarType] = useState('')
-
-  const getselectedDates = date => {
-    setSelected(true)
-    setSelectedDates(() => {
-      if (!calendarType) {
-        setCalendarType('single')
+  const getSelectDate = date => {
+    setSelectDate(select => {
+      if (isFirstSelect) {
+        setIsFirstSelect(false)
         return {
-          ...selectedDates,
-          firstSelected: date,
+          first: date,
+          second: '',
+          isFull: false,
         }
       }
 
-      if (calendarType === 'single') {
-        setCalendarType('range')
-        return selectedDates.firstSelected.id > date.id
-          ? {
-              firstSelected: date,
-              secondSelected: selectedDates.firstSelected,
-            }
-          : {
-              ...selectedDates,
-              secondSelected: date,
-            }
+      setIsFirstSelect(true)
+      return {
+        ...select,
+        second: date,
+        isFull: true,
       }
-
-      return selectedDates
     })
   }
 
-  const applySelection = () => {
-    if (selected) {
-      setSelectedDatesShow(createDateFormat(selectedDates))
-      setSelectedDates(initialSelectedDates)
-      setCalendarType('')
-      setSelected(false)
-    }
+  const deleteSelectDate = ({ id }) => {
+    setSelectDates(prev => prev.filter(date => date.id !== id))
   }
 
-  const lastWeek = () => {}
+  const applySelection = () => {
+    setSelectDates(selectDates => {
+      const id = `${selectDate.first.id}-${selectDate.second.id}`
+      const isAlreadyCreate = !!selectDates.find(date => date.id === id)
 
-  const lastMonth = () => {}
+      if (isAlreadyCreate) return selectDates
 
-  const lastQuarter = () => {}
+      return [...selectDates, { id, ...selectDate }]
+    })
+    setSelectDate(initSelectDate)
+  }
 
   return (
     <>
-      <DateControl selectedDatesShow={selectedDatesShow} />
+      <DateControl
+        deleteSelectDate={deleteSelectDate}
+        selectDates={selectDates}
+        selectDate={selectDate}
+      />
+
       <Content
-        getselectedDates={getselectedDates}
-        selected={selected}
-        selectedDates={selectedDates}
+        getSelectDate={getSelectDate}
+        selectDate={selectDate}
+        selectDates={selectDates}
       />
-      <Footer
-        lastWeek={lastWeek}
-        lastMonth={lastMonth}
-        lastQuarter={lastQuarter}
-        applySelection={applySelection}
-      />
+      <Footer selectDateFull={selectDate.isFull} applySelection={applySelection} />
     </>
   )
 }
-
-export default Calendar
