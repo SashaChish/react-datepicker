@@ -13,14 +13,13 @@ export const Cell = styled.div`
   display: inline-flex;
   justify-content: center;
   padding: 10px;
-	margin: 4px 0;
+  margin: 4px 0;
   font-size: 20px;
   font-weight: 600;
-  cursor: ${({ active }) => (active ? 'pointer' : 'default')};
-  opacity: ${({ active }) => (active ? 1 : 0.4)};
+  cursor: pointer;
 
-  ${props => {
-    if (props.left) {
+  ${({ left, right, inner }) => {
+    if (left) {
       return `
 				border-radius: 10px 0 0 10px;
 				background: #2d59a1;
@@ -28,7 +27,7 @@ export const Cell = styled.div`
 			`
     }
 
-    if (props.right) {
+    if (right) {
       return `
 				border-radius: 0px 10px 10px 0;
 				background: #2d59a1;
@@ -36,11 +35,20 @@ export const Cell = styled.div`
 			`
     }
 
-		if (props.inner) {
-			return `
+    if (inner) {
+      return `
 				color: #2d59a1;
 				background: #b8edff;
 			`
-		}
+    }
+  }}
+
+  ${({ prevSelect }) => {
+    if (prevSelect) {
+      return `
+				color: #ffffff;
+				background: #bcd9e3;
+			`
+    }
   }}
 `

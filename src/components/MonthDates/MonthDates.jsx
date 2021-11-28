@@ -28,6 +28,15 @@ export const MonthDates = ({
     if (isFull) return current.id > first.id && current.id < second.id
   }
 
+  const isPrevSelect = current => {
+    if (selectDates.length)
+      return selectDates.some(
+        ({ first, second }) => current.id >= first.id && current.id <= second.id
+      )
+
+    return false
+  }
+
   return (
     <Container>
       {calendarMonth.map(item => (
@@ -35,7 +44,7 @@ export const MonthDates = ({
           left={isLeft(item)}
           right={isRight(item)}
           inner={isInner(item)}
-          // active={options.month === +item.month}
+          prevSelect={isPrevSelect(item)}
           active={true}
           key={item.id}
           onClick={handleSelectDate(item)}
