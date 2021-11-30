@@ -1,20 +1,28 @@
 import React, { useState } from 'react'
 import PropTypes, { object, string } from 'prop-types'
 
-import { createDateFormat } from '../../utils/helpers'
-
 import { Button, Container, Select, ShowDate } from './DateControl.style'
 
+const createDateFormat = ({ first, second }) => {
+
+	const monthAddOne = ({month}) => +month < 10 ? `0${+month + 1}` : `${+month + 1}`
+
+  if (!first) return '00:00:00 - 00:00:00'
+  if (!second) return `${first.date}:${monthAddOne(first)}:${first.year} - 00:00:00`
+
+  return `${first.date}:${monthAddOne(first)}:${first.year} - ${second.date}:${monthAddOne(second)}:${second.year}`
+}
+
 export const DateControl = ({ selectDates, selectDate, deleteSelectDate }) => {
-  const [select, setSelect] = useState(null)
+  const [selectId, setSelectId] = useState('')
 
   const handleOnChangeSelect = () => e => {
-    setSelect(JSON.parse(e.target.value))
+    setSelectId(e.target.value)
   }
 
-  const handleOnClick = () => () => {
-    deleteSelectDate(select ? select : selectDates[0])
-    setSelect(null)
+  const handleOnClickBtn = () => () => {
+    deleteSelectDate(selectId ? selectId : selectDates[0].id)
+    setSelectId('')
   }
 
   return (
@@ -25,16 +33,13 @@ export const DateControl = ({ selectDates, selectDate, deleteSelectDate }) => {
         <>
           <Select onChange={handleOnChangeSelect()}>
             {selectDates.map((selectDate, index) => (
-              <option
-                key={`${selectDate.first.id}-${index}`}
-                value={JSON.stringify(selectDate)}
-              >
+              <option key={`${selectDate.first.id}-${index}`} value={selectDate.id}>
                 {createDateFormat(selectDate)}
               </option>
             ))}
           </Select>
           <div>
-            <Button onClick={handleOnClick()}>delete</Button>
+            <Button onClick={handleOnClickBtn()}>delete</Button>
           </div>
         </>
       )}

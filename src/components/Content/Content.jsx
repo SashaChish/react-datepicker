@@ -18,6 +18,7 @@ const initCalendarOptions = {
 export const Content = ({ getSelectDate, selectDate, selectDates }) => {
   const [calendarOptions, setCalendarOptions] = useState(initCalendarOptions)
   const [calendarMonth, setCalendarMonth] = useState(createCalendarMonth(calendarOptions))
+
   const handleClickPrevMonth = () => {
     setCalendarOptions(option => {
       const nextOptions = {

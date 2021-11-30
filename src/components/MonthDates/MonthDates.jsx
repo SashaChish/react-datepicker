@@ -1,12 +1,24 @@
 import React from 'react'
 import PropTypes, { object, string } from 'prop-types'
 
-import { isLessId } from '../../utils/helpers'
-
 import { Container, Cell } from './MonthDates.style'
 
+const isLessId = (firstSelectId, currentSelectId) => {
+  if (firstSelectId) {
+    const currentIdSplit = currentSelectId.split('_')
+    const firstIdSplit = firstSelectId.split('_')
+
+    for (let i = 0; i < currentIdSplit.length; i++) {
+      if (+currentIdSplit[i] < +firstIdSplit[i]) return true
+
+      if (+currentIdSplit[i] > +firstIdSplit[i]) return false
+    }
+
+    return false
+  }
+}
+
 export const MonthDates = ({
-  options,
   getSelectDate,
   selectDate,
   selectDates,
@@ -33,8 +45,6 @@ export const MonthDates = ({
       return selectDates.some(
         ({ first, second }) => current.id >= first.id && current.id <= second.id
       )
-
-    return false
   }
 
   return (
@@ -45,7 +55,6 @@ export const MonthDates = ({
           right={isRight(item)}
           inner={isInner(item)}
           prevSelect={isPrevSelect(item)}
-          active={true}
           key={item.id}
           onClick={handleSelectDate(item)}
         >
@@ -70,9 +79,5 @@ MonthDates.propTypes = {
       isFull: PropTypes.bool,
     })
   ),
-  options: PropTypes.shape({
-    year: PropTypes.number.isRequired,
-    month: PropTypes.number.isRequired,
-  }),
   getSelectDate: PropTypes.func.isRequired,
 }

@@ -16,7 +16,7 @@ export const Calendar = () => {
   const [selectDates, setSelectDates] = useState([])
 
   const getSelectDate = date => {
-    setSelectDate(select => {
+    setSelectDate(() => {
       if (isFirstSelect) {
         setIsFirstSelect(false)
         return {
@@ -28,19 +28,19 @@ export const Calendar = () => {
 
       setIsFirstSelect(true)
       return {
-        ...select,
+        ...selectDate,
         second: date,
         isFull: true,
       }
     })
   }
 
-  const deleteSelectDate = ({ id }) => {
-    setSelectDates(prev => prev.filter(date => date.id !== id))
+  const deleteSelectDate = id => {
+    setSelectDates(selectDates.filter(date => date.id !== id))
   }
 
   const applySelection = () => {
-    setSelectDates(selectDates => {
+    setSelectDates(() => {
       const id = `${selectDate.first.id}-${selectDate.second.id}`
       const isAlreadyCreate = !!selectDates.find(date => date.id === id)
 
